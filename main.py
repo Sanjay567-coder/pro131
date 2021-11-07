@@ -2,6 +2,7 @@ import csv
 import pandas as pd
 
 rows = []
+gravity=[]
 
 with open('final.csv', 'r') as f:
     csv_r = csv.reader(f)
@@ -20,18 +21,22 @@ for star in data:
         star[4] = float(star[4].strip("\'"))*6.957e+8
     star_data.append(star)
 
-gravity = []
-for star in star_data:
-    if star[3] != '?' and star[4] != '?':
-        gravity = (6.674e-11 * float(star[3]))/(float(star[4])*float(star[4]))
-    star.append(gravity)
-    gravity.append(star)
+radius = []
+radius.append(star[3])
+mass = []
+mass.append(star[4])
+
+def gravity_calculation(radius,mass):
+    G = 6.674e-11
+    for index in range(0,len(mass)):
+        g= (mass[index]*G)/((radius[index])**2)
+        gravity.append(g)
+        
+gravity_calculation(radius,mass)
+
 
 name = []
 distance = []
-mass = []
-radius = []
-gravity = []
 for i in gravity:
     name.append(i[1])
     distance.append(i[2])
